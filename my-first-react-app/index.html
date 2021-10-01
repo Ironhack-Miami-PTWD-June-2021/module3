@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
+</head>
+<body>
+    <div id='root'></div>
+
+    <script type="text/babel">
+        const root = document.getElementById('root');
+        // const heading = document.createElement('h1');
+        // heading.innerText = 'Hi there this is our page';
+        // root.appendChild(heading)
+
+        // const element = React.createElement('h1', {
+        //     children: [
+        //         'Hi there this is our first react code',
+        //         'Time now is:',
+        //         `${new Date().getHours()}: ${new Date().getMinutes()}:${new Date().getSeconds()}`
+        //     ]
+        // }, )
+
+        const element = (<div className=''>
+                <h1>Hi there this is JSX which is translated into JS</h1>
+                <div><p>Time now is: {new Date().getHours()}</p></div>
+            </div>)
+
+        ReactDOM.render(element, root)
+    </script>
+</body>
+</html>
