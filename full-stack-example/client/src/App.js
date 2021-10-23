@@ -1,7 +1,8 @@
 import React from "react";
 import "./App.css";
 import { serviceAuthors, serviceBooks } from "./service/index";
-import { Switch, Route } from "react-router-dom";
+import authService from "./service/auth-service";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 // components
 import List from "./components/Authors/List";
@@ -9,12 +10,23 @@ import ListBooks from "./components/Books/List";
 import Author from "./components/Authors/Author";
 import Book from "./components/Books/Book";
 import Signup from "./components/Auth/Signup";
+import Navbar from "./components/Navbar";
 
 class App extends React.Component {
   state = {
     authors: null,
+    user: null,
+    loading: true,
   };
   componentDidMount() {
+    authService.getSession().then((data) => {
+      console.log(data);
+      const { user } = data;
+      this.setState({
+        user,
+        loading: false,
+      });
+    });
     serviceAuthors.getAuthorsList().then((data) => {
       this.setState({
         authors: data.authors,
@@ -30,17 +42,26 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        React rocks
+        <Navbar user={this.state.user} loading={this.state.loading} />
         <Switch>
-          <Route
-            exact
-            path="/authors"
-            render={() => <List authors={this.state.authors} />}
-          />
+          {this.state.user && (
+            <Route
+              exact
+              path="/authors"
+              render={() => <List authors={this.state.authors} />}
+            />
+          )}
           <Route
             exact
             path="/books"
-            render={() => <ListBooks books={this.state.books} />}
+            render={({ history, location, match }) => (
+              <ListBooks
+                books={this.state.books}
+                history={history}
+                location={location}
+                match={match}
+              />
+            )}
           />
           <Route
             path="/authors/:id"
@@ -53,6 +74,7 @@ class App extends React.Component {
             path="/auth/signup"
             render={(props) => <Signup {...props} />}
           />
+          <Route exact path="/blah" component={Navbar} />
         </Switch>
       </div>
     );

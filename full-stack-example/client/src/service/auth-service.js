@@ -5,9 +5,10 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-const serviceAuthors = {
-  Signup: (body) =>
+const authService = {
+  signup: (body) =>
     instance.post("/signup", body).then((response) => response.data),
+  getSession: () => instance.get("/session").then((response) => response.data),
 };
 
-export default serviceAuthors;
+export default authService;

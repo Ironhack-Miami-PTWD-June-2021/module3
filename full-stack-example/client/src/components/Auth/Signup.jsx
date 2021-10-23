@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import authInstance from "../../service/auth-service";
+import { Redirect } from "react-router-dom";
 
 export default class Signup extends Component {
   state = {
@@ -15,12 +16,15 @@ export default class Signup extends Component {
 
   handleSignup = (e) => {
     e.preventDefault();
-    authInstance.Signup(this.state).then((data) => {
+    authInstance.signup(this.state).then((data) => {
       console.log({ data });
+      // upon successfull
+      this.props.history.push("/");
     });
   };
 
   render() {
+    console.log(this.props);
     return (
       <form onSubmit={this.handleSignup}>
         <input

@@ -14,6 +14,10 @@ const User = require("../models/User.model");
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
+router.get("/session", (req, res) => {
+  res.json({ user: req.session?.user || null });
+});
+
 router.post("/signup", isLoggedOut, (req, res) => {
   const { username, password } = req.body;
 
